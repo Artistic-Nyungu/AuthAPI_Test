@@ -39,7 +39,14 @@ public class PizzaController : ControllerBase
     [Authorize]
     [HttpPost]
     public IActionResult Create(Pizza pizza){
-        _service.Add(pizza);
+        var result = _service.Add(pizza);
+
+        if(result == -1)
+            BadRequest($"Pizza named {pizza.Name} already exists");
+
+        if(result < 0)
+            return BadRequest();
+
         return CreatedAtAction(nameof(Get), new{id = pizza.Id}, pizza);
     }
 
