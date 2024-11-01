@@ -16,7 +16,7 @@ public  class PizzaService{
     {
 
         if(_context.Pizzas.Any(p => p.Name == pizza.Name))
-            return -3;
+            return -1;
 
         _context.Add(pizza);
 
@@ -29,12 +29,10 @@ public  class PizzaService{
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Error.WriteLine(ex.InnerException?.Message ?? ex.Message);
             Console.ForegroundColor = og;
-            return -1;
+            return -2;
         }
 
-        var last = _context.Pizzas.Last();
-
-        return last.Name == pizza.Name ? last.Id : -2;
+        return pizza.Id;
     }
 
     public bool Delete(int id)
